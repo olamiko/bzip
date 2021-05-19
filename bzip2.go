@@ -5,6 +5,7 @@ package bzip
 #cgo LDFLAGS: -L/usr/lib -lbz2
 #include <bzlib.h>
 int bz2compress(bz_stream *s, int action, char *in, unsigned *inlen, char *out, unsigned *outlen);
+void bz2free(bz_stream* s) { free(s); }
 */
 import "C"
 
@@ -39,7 +40,7 @@ func (w *writer) Write(data []byte) (int, error) {
 
 	for len(data) > 0 {
 		inlen, outlen := C.uint(len(data)), C.uint(cap(w.outbuf))
-		C.bz2Compress(w.stream, C.BZ_RUN,
+		C.bz2compress(w.stream, C.BZ_RUN,
 			(*C.char)(unsafe.Pointer(&data[0])), &inlen,
 			(*C.char)(unsafe.Pointer(&w.outbuf)), &outlen)
 		total += int(inlen)

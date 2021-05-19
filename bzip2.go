@@ -4,8 +4,7 @@ package bzip
 #cgo CFLAGS: -I/usr/include
 #cgo LDFLAGS: -L/usr/lib -lbz2
 #include <bzlib.h>
-int bz2compress(bz_stream *s, int action
-								char *in, unsigned *inlen, char *out, unsigned *outlen);
+int bz2compress(bz_stream *s, int action, char *in, unsigned *inlen, char *out, unsigned *outlen);
 */
 import "C"
 
